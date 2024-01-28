@@ -1,8 +1,8 @@
 "use client";
 
-import actionGrabUsername from "@/actions/action-grab-username";
-import RightLongArrow from "@/components/icons/right-long-arrow";
+import actionGrabUsername from "@/actions/action-grab-username";  
 import { useState } from "react";
+import SubmitButton from "../buttons/submit-button";
 
 type UsernameFormProps = {
   desiredUsername: string;
@@ -49,15 +49,8 @@ const UsernameForm = ({
           </div>
         )}
 
-        <button
-          className="bg-blue-500 text-white py-4 px-4 block mx-auto w-full"
-          type="submit"
-        >
-          <div className="mx-auto flex gap-2 justify-center">
-            <span>Claim usename</span>
-            <RightLongArrow />
-          </div>
-        </button>
+        <SubmitButton title="Claim username" />
+
       </div>
     </form>
   );
