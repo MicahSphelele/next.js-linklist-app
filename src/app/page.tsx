@@ -1,6 +1,13 @@
+import HeroForm from "@/components/forms/hero-form";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "./api/auth/[...nextauth]/route";
 
-const HomePage = () => {
+const HomePage = async() => {
+
+  const session = await getServerSession(nextAuthOptions);
+  
   return (
+
     <main>
       <section className="pt-32">
         <div className="max-w-md mb-6">
@@ -13,13 +20,7 @@ const HomePage = () => {
             one page
           </h2>
         </div>
-        <form action="" className="inline-flex items-center shadow-lg shadow-gray/700">
-          <span className="bg-white py-4 pl-4">linklist.to/</span>
-          <input type="text" placeholder="username" className="py-4 outline-none"/>
-          <button type="submit" className="bg-blue-500 text-white py-4 px-6">
-            Join for free
-          </button>
-        </form>
+        <HeroForm user={session?.user} />
       </section>
     </main>
   );

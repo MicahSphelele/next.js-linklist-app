@@ -1,15 +1,13 @@
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import SignOutButton from "./buttons/sign-out-button";
+import SignOutButton from "../buttons/sign-out-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const Header = async () => {
 
   const session = await getServerSession(nextAuthOptions);
-
-  console.log("Session", session);
 
   return (
     <header className="bg-white border-b py-4">

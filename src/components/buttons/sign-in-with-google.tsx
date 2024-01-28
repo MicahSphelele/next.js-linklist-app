@@ -4,10 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { signIn } from "next-auth/react";
 
-interface SignInWithGoogleProps {
-  onClick: () => void;
-}
-
 const SignInWithGoogle = () => {
   return (
     <button
