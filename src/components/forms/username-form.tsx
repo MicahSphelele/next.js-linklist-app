@@ -1,16 +1,16 @@
 "use client";
 
-import actionGrabUsername from "@/actions/action-grab-username";  
+import actionGrabUsername from "@/actions/action-grab-username";
+import RightLongArrow from "@/components/icons/right-long-arrow";
 import { useState } from "react";
 import SubmitButton from "../buttons/submit-button";
+import { redirect } from "next/navigation";
 
 type UsernameFormProps = {
   desiredUsername: string;
 };
 
-const UsernameForm = ({
-  desiredUsername
-}: UsernameFormProps) => {
+const UsernameForm = ({ desiredUsername }: UsernameFormProps) => {
   const [taken, setTaken] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
@@ -18,6 +18,10 @@ const UsernameForm = ({
     const result = await actionGrabUsername(formData);
 
     setTaken(result === false);
+
+    if(result) {
+      redirect(`/account?created=${formData.get("username")}`);
+    }
 
   };
 
@@ -49,8 +53,10 @@ const UsernameForm = ({
           </div>
         )}
 
-        <SubmitButton title="Claim username" />
-
+        <SubmitButton>
+          <span>Claim username</span>
+          <RightLongArrow />
+        </SubmitButton>
       </div>
     </form>
   );
