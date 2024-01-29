@@ -1,6 +1,6 @@
 import HeroForm from "@/components/forms/hero-form";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "./api/auth/[...nextauth]/route";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 
 const HomePage = async() => {
 

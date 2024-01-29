@@ -1,13 +1,12 @@
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
+import { nextAuthOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import UsernameForm from "@/components/forms/username-form";
 import actionGetPageByOwner from "@/actions/action-get-account-page";
 import { PageDTO } from "@/domain/models/dto/page-dto";
 
 const AccountPage = async ({
-  searchParams,
-  ...rest
+  searchParams
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
@@ -19,9 +18,9 @@ const AccountPage = async ({
     redirect("/");
   }
 
-  const page = (await actionGetPageByOwner(
+  const page = await actionGetPageByOwner(
     session.user?.email as string
-  )) as PageDTO;
+  ) as PageDTO;
 
   return (
     <div>
