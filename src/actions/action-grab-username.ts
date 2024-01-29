@@ -4,7 +4,6 @@ import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Page } from "@/domain/models/page";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const actionGrabUsername = async(formData: FormData) => {
         
