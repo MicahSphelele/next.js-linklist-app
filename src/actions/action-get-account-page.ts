@@ -7,9 +7,9 @@ const actionGetPageByOwner = async(email?: string) => {
 
     await mongoose.connect(process.env.MONGODB_URI as string);
 
-    const existingPage = await Page.findOne({ owner: email });
+    const page = await Page.findOne({ owner: email });
 
-    return JSON.parse(JSON.stringify(existingPage));
+    return JSON.parse(JSON.stringify(page));
 };
 
 export default actionGetPageByOwner;

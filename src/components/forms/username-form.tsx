@@ -5,6 +5,8 @@ import RightLongArrow from "@/components/icons/right-long-arrow";
 import { useState } from "react";
 import SubmitButton from "../buttons/submit-button";
 import { redirect } from "next/navigation";
+import { MessageResponse } from "@/domain/models/message-response";
+import { MessageType } from "@/domain/enums/enums";
 
 type UsernameFormProps = {
   desiredUsername: string;
@@ -15,14 +17,13 @@ const UsernameForm = ({ desiredUsername }: UsernameFormProps) => {
 
   const handleSubmit = async (formData: FormData) => {
 
-    const result = await actionGrabUsername(formData);
+    const result = await actionGrabUsername(formData) as MessageResponse;
+    
+    setTaken(result.type === MessageType.Error);
 
-    setTaken(result === false);
-
-    if(result) {
+    if(result.type === MessageType.Success) {
       redirect(`/account?created=${formData.get("username")}`);
     }
-
   };
 
   const clear = () => {
