@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import UsernameForm from "@/components/forms/username-form";
 import actionGetPageByOwner from "@/actions/action-get-account-page";
 import { PageDTO } from "@/domain/models/dto/page-dto";
+import PageSettingsForm from "@/components/forms/page-settings-form";
 
 const AccountPage = async ({
   searchParams
@@ -26,7 +27,7 @@ const AccountPage = async ({
     <div>
       {!page && <UsernameForm desiredUsername={desiredUsername as string} />}
 
-      {page && <p>Your page is: /{page.uri} </p>}
+      {page && <PageSettingsForm page={page} />}
     </div>
   );
 };
