@@ -4,8 +4,10 @@ import { PageDTO } from "@/domain/models/dto/page-dto";
 import RadioTogglers from "./form-items/radio-togglers";
 import { useState } from "react";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faPalette, faSave } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import SubmitButton from "../buttons/submit-button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
   page: PageDTO;
@@ -50,6 +52,10 @@ const PageSettingsForm = ({ page, user }: Props) => {
           <input className="outline-none" id="locationIn" name="location"  type="text" placeholder="Somewhere in the world" defaultValue={page.location}/>
           <label className="input-label" htmlFor="bioIn">Bio</label>
           <textarea className="outline-none" name="bio" placeholder="Your Bio goes here..." id="bioIn" defaultValue={page.bio} />
+          <SubmitButton>
+            <FontAwesomeIcon icon={faSave} className="w-4 h-4"/>
+            <span>Save</span>
+          </SubmitButton>
         </div>
       </form>
     </div>

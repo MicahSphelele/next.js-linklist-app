@@ -49,15 +49,20 @@ const HeroForm = ({ user }: Props ) => {
   return (
   
     <form
-      onSubmit={(e) => handleSubmit(e)}
-      action=""
-      className="inline-flex items-center shadow-lg shadow-gray/700"
-    >
-      <span className="bg-white py-4 pl-4">linklist.to/</span>
-
-      <input type="text" placeholder="username" className="py-4 outline-none" />
-      <button type="submit" className="bg-blue-500 text-white py-4 px-6">
-        Join for free
+      onSubmit={handleSubmit}
+      className="inline-flex items-center shadow-lg bg-white shadow-gray-500/20">
+          <span className="bg-white py-4 pl-4">
+            linklist.to/
+          </span>
+      <input
+        type="text"
+        className="outline-none"
+        style={{backgroundColor:'white',marginBottom:0,paddingLeft:0}}
+        placeholder="username"/>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-4 px-6 whitespace-nowrap">
+        Join for Free
       </button>
     </form>
   );
