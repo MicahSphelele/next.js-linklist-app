@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import { redirect ,useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-type HeroFormProps = {
+type Props = {
   user?: {
     name?: string | null
     email?: string | null
@@ -12,7 +12,7 @@ type HeroFormProps = {
   }
 }
 
-const HeroForm = ({ user }: HeroFormProps ) => {
+const HeroForm = ({ user }: Props ) => {
 
   const router = useRouter();
 

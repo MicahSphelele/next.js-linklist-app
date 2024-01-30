@@ -7,11 +7,12 @@ import {
   faArrowLeftLong,
 } from "@fortawesome/free-solid-svg-icons";
 import SignOutButton from "@/components/buttons/sign-out-button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 
 const AppSiderbar = () => {
 
+    const router = useRouter();
     const path = usePathname();
     const activeClasses = "text-blue-500 flex gap-4 p-2";
     const inActiveClasses = "flex gap-4 p-2";
@@ -32,7 +33,7 @@ const AppSiderbar = () => {
         <span>My Page</span>
       </Link>
 
-      <Link className={getLinkClasses('/analytics')} href={"/analytics"}>
+      <Link onClick={()=> router.refresh()} className={getLinkClasses('/analytics')} href={"/analytics"}>
         <FontAwesomeIcon
           fixedWidth={true}
           className="h-6 w-6"

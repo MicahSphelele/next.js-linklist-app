@@ -2,7 +2,10 @@ import mongoose, { Schema, model, models } from "mongoose";
 
 const pageSchema = new Schema({
     uri : { type: String, required: true, min: 1, unique: true },
-    owner: { type: String, required: true, min: 1 }
+    owner: { type: String, required: true, min: 1 },
+    displayName: { type: String, default: ""},
+    location: { type: String, default: ""},
+    bio: { type: String, default: ""}
 
 }, { timestamps: true });
 

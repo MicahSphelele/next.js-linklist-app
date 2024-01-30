@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -5,6 +6,11 @@ import UsernameForm from "@/components/forms/username-form";
 import actionGetPageByOwner from "@/actions/action-get-account-page";
 import { PageDTO } from "@/domain/models/dto/page-dto";
 import PageSettingsForm from "@/components/forms/page-settings-form";
+
+export const metadata: Metadata = {
+  title: "Account",
+  description: "This is the main account settings page",
+};
 
 const AccountPage = async ({
   searchParams
@@ -26,8 +32,8 @@ const AccountPage = async ({
   return (
     <div>
       {!page && <UsernameForm desiredUsername={desiredUsername as string} />}
-
-      {page && <PageSettingsForm page={page} />}
+      
+      {page && <PageSettingsForm page={page} user={session.user} />}
     </div>
   );
 };

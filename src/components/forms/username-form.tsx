@@ -8,11 +8,11 @@ import { redirect } from "next/navigation";
 import { MessageResponse } from "@/domain/models/message-response";
 import { MessageType } from "@/domain/enums/enums";
 
-type UsernameFormProps = {
+type Props = {
   desiredUsername: string;
 };
 
-const UsernameForm = ({ desiredUsername }: UsernameFormProps) => {
+const UsernameForm = ({ desiredUsername }: Props) => {
   const [taken, setTaken] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {

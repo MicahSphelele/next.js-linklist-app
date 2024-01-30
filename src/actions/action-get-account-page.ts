@@ -1,6 +1,6 @@
 "use server";
 
-import { Page } from "@/domain/models/page";
+import { Page } from "@/domain/models/db/page";
 import mongoose from "mongoose";
 
 const actionGetPageByOwner = async(email?: string) => {
