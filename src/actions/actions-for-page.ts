@@ -34,7 +34,7 @@ export const actionSavePageSettings = async (formData: FormData) => {
      await Page.updateOne({ owner: session.user?.email }, { displayName, location, bio });
 
      response.type = MessageType.Success;
-     response.message = "Page has successfully been updated";
+     response.message = "Your page details have been updated";
 
      return JSON.parse(JSON.stringify(response));
 

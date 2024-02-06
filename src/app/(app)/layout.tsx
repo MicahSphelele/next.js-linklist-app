@@ -6,6 +6,7 @@ import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import AppSiderbar from "@/components/layout/app-sider";
+import { Toaster } from "react-hot-toast";
 
 const lato = Lato({ subsets: ["latin"], weight: ['400','700'] });
 
@@ -47,7 +48,10 @@ const ApppLayout = async ({
             </div>
           </aside>
           <div className="grow">
-            <div className="bg-white m-8 p-4 shadow">{children}</div>
+            <div className="bg-white m-8 p-4 shadow">
+              <Toaster />
+              {children}
+              </div>
           </div>
         </main>
       </body>

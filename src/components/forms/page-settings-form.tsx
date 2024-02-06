@@ -10,6 +10,8 @@ import SubmitButton from "../buttons/submit-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { actionSavePageSettings } from "@/actions/actions-for-page";
 import { MessageResponse } from "@/domain/models/message-response";
+import { MessageType } from "@/domain/enums/enums";
+import toast from "react-hot-toast";
 
 type Props = {
   page: PageDTO;
@@ -25,10 +27,18 @@ const PageSettingsForm = ({ page, user }: Props) => {
   const [defaultValue, setDefaultValue] = useState("color");
 
   const handleSubmit = async (formData: FormData) => {
-      
-    const result = await actionSavePageSettings(formData) as MessageResponse;
 
-    console.log({ result });
+    const result = await actionSavePageSettings(formData) as MessageResponse;
+  
+    if(result.type == MessageType.Success) {
+
+      toast.success(result.message);
+
+    } else {
+
+      toast.error(result.message);
+    }
+
   };
 
   return (
