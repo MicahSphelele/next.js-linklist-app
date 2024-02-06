@@ -8,23 +8,32 @@ import { faPalette, faSave } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import SubmitButton from "../buttons/submit-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { actionSavePageSettings } from "@/actions/actions-for-page";
+import { MessageResponse } from "@/domain/models/message-response";
 
 type Props = {
   page: PageDTO;
   user?: {
-    name?: string | null
-    email?: string | null
-    image?: string | null
-  }
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
 };
 
 const PageSettingsForm = ({ page, user }: Props) => {
 
   const [defaultValue, setDefaultValue] = useState("color");
 
+  const handleSubmit = async (formData: FormData) => {
+      
+    const result = await actionSavePageSettings(formData) as MessageResponse;
+
+    console.log({ result });
+  };
+
   return (
     <div className="-m-4">
-      <form>
+      <form action={handleSubmit}>
         <div className="bg-gray-300 py-16 flex justify-center items-center">
           <RadioTogglers
             options={[
@@ -37,7 +46,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
         </div>
         <div className="flex justify-center -mb-12">
           <Image
-          className="rounded-full relative -top-8 border-4 border-white shadow shadow-black/50"
+            className="rounded-full relative -top-8 border-4 border-white shadow shadow-black/50"
             alt="User Avatar"
             width={128}
             height={128}
@@ -46,16 +55,44 @@ const PageSettingsForm = ({ page, user }: Props) => {
           />
         </div>
         <div className="p-4">
-          <label className="input-label" htmlFor="nameIn">Display name</label>
-          <input className="outline-none" id="nameIn" name="displayName" type="text" placeholder="John Doe" defaultValue={page.displayName}/>
-          <label className="input-label" htmlFor="locationIn">Location</label>
-          <input className="outline-none" id="locationIn" name="location"  type="text" placeholder="Somewhere in the world" defaultValue={page.location}/>
-          <label className="input-label" htmlFor="bioIn">Bio</label>
-          <textarea className="outline-none" name="bio" placeholder="Your Bio goes here..." id="bioIn" defaultValue={page.bio} />
-          <SubmitButton>
-            <FontAwesomeIcon icon={faSave} className="w-4 h-4"/>
-            <span>Save</span>
-          </SubmitButton>
+          <label className="input-label" htmlFor="nameIn">
+            Display name
+          </label>
+          <input
+            className="outline-none"
+            id="nameIn"
+            name="displayName"
+            type="text"
+            placeholder="John Doe"
+            defaultValue={page.displayName}
+          />
+          <label className="input-label" htmlFor="locationIn">
+            Location
+          </label>
+          <input
+            className="outline-none"
+            id="locationIn"
+            name="location"
+            type="text"
+            placeholder="Somewhere in the world"
+            defaultValue={page.location}
+          />
+          <label className="input-label" htmlFor="bioIn">
+            Bio
+          </label>
+          <textarea
+            className="outline-none"
+            name="bio"
+            placeholder="Your Bio goes here..."
+            id="bioIn"
+            defaultValue={page.bio}
+          />
+          <div className="max-w-[200px] mx-auto">
+            <SubmitButton>
+              <FontAwesomeIcon icon={faSave} className="w-4 h-4" />
+              <span>Save</span>
+            </SubmitButton>
+          </div>
         </div>
       </form>
     </div>
