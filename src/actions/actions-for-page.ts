@@ -27,11 +27,13 @@ export const actionSavePageSettings = async (formData: FormData) => {
 
     if(session) {
 
-        const displayName = formData.get("displayName");
-        const location = formData.get("location");
-        const bio = formData.get("bio");
+        const displayName = formData.get("displayName") as string;
+        const location = formData.get("location") as string;
+        const bio = formData.get("bio") as string;
+        const bgType = formData.get("bgType") as string;
+        const bgColor = formData.get("bgColor") as string;
 
-     await Page.updateOne({ owner: session.user?.email }, { displayName, location, bio });
+     await Page.updateOne({ owner: session.user?.email }, { displayName, location, bio, bgType, bgColor });
 
      response.type = MessageType.Success;
      response.message = "Your page details have been updated";
@@ -39,8 +41,10 @@ export const actionSavePageSettings = async (formData: FormData) => {
      return JSON.parse(JSON.stringify(response));
 
     } else {
+
         response.type = MessageType.Error;
         response.message = "Session not found please try and authenticate";
+
         return JSON.parse(JSON.stringify(response));
     }
 };

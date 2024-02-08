@@ -12,6 +12,7 @@ import { actionSavePageSettings } from "@/actions/actions-for-page";
 import { MessageResponse } from "@/domain/models/message-response";
 import { MessageType } from "@/domain/enums/enums";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   page: PageDTO;
@@ -25,34 +26,41 @@ type Props = {
 const PageSettingsForm = ({ page, user }: Props) => {
 
   const [defaultValue, setDefaultValue] = useState("color");
+  const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
+    const result = (await actionSavePageSettings(formData)) as MessageResponse;
 
-    const result = await actionSavePageSettings(formData) as MessageResponse;
-  
-    if(result.type == MessageType.Success) {
-
+    if (result.type === MessageType.Success) {
       toast.success(result.message);
-
+      router.refresh();
     } else {
-
       toast.error(result.message);
     }
-
   };
 
   return (
     <div className="-m-4">
       <form action={handleSubmit}>
-        <div className="bg-gray-300 py-16 flex justify-center items-center">
-          <RadioTogglers
-            options={[
-              { value: "color", icon: faPalette, label: "Color" },
-              { value: "image", icon: faImage, label: "Image" },
-            ]}
-            defaultValue={defaultValue}
-            onChange={(value) => setDefaultValue(value)}
-          />
+        <div className="py-16 flex justify-center items-center" style={{backgroundColor: page.bgColor}}>
+          <div>
+            <RadioTogglers
+              options={[
+                { value: "color", icon: faPalette, label: "Color" },
+                { value: "image", icon: faImage, label: "Image" },
+              ]}
+              defaultValue={page.bgType ?? "color"}
+            />
+            <div className="bg-gray-200 shadow text-gray-700 p-2 mt-2">
+            {page.bgType === "color" && (
+              <div className="flex gap-2 justify-center">
+                <span>Background color:</span>
+                <input type="color" name="bgColor" defaultValue={page.bgColor} />
+              </div>
+            )}
+            </div>
+
+          </div>
         </div>
         <div className="flex justify-center -mb-12">
           <Image

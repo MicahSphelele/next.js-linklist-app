@@ -6,6 +6,8 @@ export type PageDTO = {
     displayName?: string;
     location?: string;
     bio?: string;
+    bgType?: string;
+    bgColor?: string
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }
