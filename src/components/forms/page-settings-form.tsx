@@ -2,7 +2,7 @@
 
 import { PageDTO } from "@/domain/models/dto/page-dto";
 import RadioTogglers from "./form-items/radio-togglers";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faPalette, faSave } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import { MessageResponse } from "@/domain/models/message-response";
 import { MessageType } from "@/domain/enums/enums";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type Props = {
   page: PageDTO;
@@ -24,9 +25,9 @@ type Props = {
 };
 
 const PageSettingsForm = ({ page, user }: Props) => {
-
-  const [defaultValue, setDefaultValue] = useState("color");
   const router = useRouter();
+  const [bgType, setBgType] = useState(page.bgType);
+  const [bgColor, setBgColor] = useState(page.bgColor);
 
   const handleSubmit = async (formData: FormData) => {
     const result = (await actionSavePageSettings(formData)) as MessageResponse;
@@ -39,27 +40,72 @@ const PageSettingsForm = ({ page, user }: Props) => {
     }
   };
 
+  const onChangeBgType = (value: string) => setBgType(value);
+
+  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    const file: File = (target.files as FileList)[0];
+
+    const data = new FormData();
+    data.set("file", file);
+    data.set("",user?.email ?? "");
+
+    //data.append("image", file);
+    //data.append("email", user?.email ?? "");
+  
+    //console.log({ file });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.post("/api/upload", data);
+
+  };
+
   return (
     <div className="-m-4">
       <form action={handleSubmit}>
-        <div className="py-16 flex justify-center items-center" style={{backgroundColor: page.bgColor}}>
+        <div
+          className="py-16 flex justify-center items-center"
+          style={{ backgroundColor: bgColor }}
+        >
           <div>
             <RadioTogglers
               options={[
                 { value: "color", icon: faPalette, label: "Color" },
                 { value: "image", icon: faImage, label: "Image" },
               ]}
-              defaultValue={page.bgType ?? "color"}
+              defaultValue={bgType ?? "color"}
+              onChange={onChangeBgType}
             />
-            <div className="bg-gray-200 shadow text-gray-700 p-2 mt-2">
-            {page.bgType === "color" && (
-              <div className="flex gap-2 justify-center">
-                <span>Background color:</span>
-                <input type="color" name="bgColor" defaultValue={page.bgColor} />
+
+            {bgType === "color" && (
+              <div className="bg-gray-200 shadow text-gray-700 p-2 mt-2">
+                <div className="flex gap-2 justify-center">
+                  <span>Background color:</span>
+                  <input
+                    type="color"
+                    name="bgColor"
+                    defaultValue={page.bgColor}
+                    onChange={(e) => {
+                      setBgColor(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
             )}
-            </div>
-
+            {bgType === "image" && (
+              <div className="flex gap-2 justify-center">
+                
+                <label className="bg-white shadow px-4 py-2 mt-2">
+                <input className="hidden" type="file" accept="image/png, image/gif, image/jpeg" onChange={onChangeFile} />
+                  Change Image
+                  </label>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-center -mb-12">
