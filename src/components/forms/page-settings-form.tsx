@@ -47,8 +47,8 @@ const PageSettingsForm = ({ page, user }: Props) => {
     const file: File = (target.files as FileList)[0];
 
     const data = new FormData();
-    data.set("file", file);
-    data.set("",user?.email ?? "");
+    data.append("file", file);
+    data.append("",user?.email ?? "");
 
     //data.append("image", file);
     //data.append("email", user?.email ?? "");
@@ -62,6 +62,9 @@ const PageSettingsForm = ({ page, user }: Props) => {
     };
 
     const response = await axios.post("/api/upload", data);
+    const result = response.data;
+
+    console.log({ result });
 
   };
 
