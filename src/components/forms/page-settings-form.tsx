@@ -1,6 +1,7 @@
 "use client";
 
 import { PageDTO } from "@/domain/models/dto/page-dto";
+import { ImageUploadResponse } from "@/domain/models/dto/upload-response";
 import RadioTogglers from "./form-items/radio-togglers";
 import { ChangeEvent, useState } from "react";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
@@ -48,12 +49,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("",user?.email ?? "");
-
-    //data.append("image", file);
-    //data.append("email", user?.email ?? "");
-  
-    //console.log({ file });
+    data.append("", user?.email ?? "");
 
     const config = {
       headers: {
@@ -61,11 +57,21 @@ const PageSettingsForm = ({ page, user }: Props) => {
       },
     };
 
-    const response = await axios.post("/api/upload", data);
-    const result = response.data;
+    // const response = await axios.post("/api/upload", data);
+    // const result = response.data;
 
-    console.log({ result });
+    toast.promise(axios.post("/api/upload", data), {
+      loading: 'Saving image...',
+      success: (data) => {
+        console.log({ data });
+        return `Successfully saved image`
+      },
+      error: 'Error when fetching',
+    });
 
+    //const result = response.data as ImageUploadResponse;
+
+    //toast.success("Image has been successfully upload.");
   };
 
   return (
@@ -102,11 +108,15 @@ const PageSettingsForm = ({ page, user }: Props) => {
             )}
             {bgType === "image" && (
               <div className="flex gap-2 justify-center">
-                
                 <label className="bg-white shadow px-4 py-2 mt-2">
-                <input className="hidden" type="file" accept="image/png, image/gif, image/jpeg" onChange={onChangeFile} />
+                  <input
+                    className="hidden"
+                    type="file"
+                    accept="image/png, image/gif, image/jpeg"
+                    onChange={onChangeFile}
+                  />
                   Change Image
-                  </label>
+                </label>
               </div>
             )}
           </div>
