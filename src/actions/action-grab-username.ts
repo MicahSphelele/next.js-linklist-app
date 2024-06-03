@@ -37,7 +37,7 @@ const actionGrabUsername = async (formData: FormData) => {
     } else {
       const pageCreated = await Page.create({
         uri: username,
-        owner: email
+        owner: email,
       });
 
       if (pageCreated) {
