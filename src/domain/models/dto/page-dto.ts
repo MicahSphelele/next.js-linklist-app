@@ -8,6 +8,8 @@ export type PageDTO = {
     bio?: string;
     bgType?: string;
     bgColor?: string
+    bgImageUrl: string,
+    bgImageKey: string
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }

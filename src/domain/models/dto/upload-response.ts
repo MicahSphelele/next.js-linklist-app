@@ -1,3 +1,7 @@
+import { ImageInfo } from "./image-info"
+import { MessageResponse } from "../message-response"
+
 export type ImageUploadResponse = {
-    imageLink: string
+    imageInfo?: ImageInfo
+    message: MessageResponse
 }

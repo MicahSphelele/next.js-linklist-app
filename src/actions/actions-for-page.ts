@@ -3,6 +3,7 @@
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { MessageType } from "@/domain/enums/enums";
 import { Page } from "@/domain/models/db/page";
+import { PageDTO } from "@/domain/models/dto/page-dto";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
@@ -29,10 +30,20 @@ export const actionSavePageSettings = async (formData: FormData) => {
     const bio = formData.get("bio") as string;
     const bgType = formData.get("bgType") as string;
     const bgColor = formData.get("bgColor") as string;
+    const bgImageUrl = formData.get("bgImageUrl") as string;
+    const bgImageKey = formData.get("bgImageKey") as string;
+
+    const updateData = { displayName, location, bio, bgType } as PageDTO
+
+    if(bgColor) updateData.bgColor = bgColor
+
+    if(bgImageUrl) updateData.bgImageUrl = bgImageUrl
+
+    if(bgImageKey) updateData.bgImageKey = bgImageKey
 
     await Page.updateOne(
       { owner: session.user?.email },
-      { displayName, location, bio, bgType, bgColor }
+      updateData
     );
 
     response.type = MessageType.Success;

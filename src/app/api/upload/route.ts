@@ -1,6 +1,7 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import uniqid from "uniqid";
 import { NextRequest, NextResponse } from "next/server";
+import { MessageType } from "@/domain/enums/enums";
 
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
@@ -24,6 +25,8 @@ export const POST = async (req: NextRequest) => {
     const stream = file.stream();
     const reader = stream.getReader();
     const chunks: Uint8Array[] = [];
+
+    console.log("Uploading image-001");
     
     while (true) {
         const { done, value } = await reader.read();
@@ -31,21 +34,32 @@ export const POST = async (req: NextRequest) => {
         if (value) chunks.push(value);
       }
 
-      const bucketName = process.env.S3_BUCKET_NAME as string
+      console.log("Uploading image-002 " + chunks.length);
 
-    await s3Client.send(new PutObjectCommand({
+    const bucketName = process.env.S3_BUCKET_NAME as string
+
+   await s3Client.send(new PutObjectCommand({
         Bucket: bucketName,
         Key: newFilename,
         ACL: "public-read",
         Body: Buffer.concat(chunks),
         ContentType: file.type,
     }));
+    
+    console.log("Uploading image-003");
 
     const imageLink = `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
 
-    return new NextResponse(JSON.stringify({ imageLink }), { status: 200 });
+    const imageInfo = { imageLink, fileName: newFilename }
+    const message = { type: MessageType.Success, message: "Image uploaded successfully"}
+
+    return new NextResponse(JSON.stringify({ imageInfo, message }), { status: 200 });
+
   } else {
-    return new NextResponse(JSON.stringify({ message: "File not found" }), {
+    
+    const message = { type: MessageType.Error, message: "Image file not found"}
+
+    return new NextResponse(JSON.stringify({ imageInfo: null, message }), {
       status: 404,
     });
   }

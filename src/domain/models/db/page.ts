@@ -7,7 +7,9 @@ const pageSchema = new Schema({
     location: { type: String, default: ""},
     bio: { type: String, default: ""},
     bgType: { type: String, default: "color"},
-    bgColor: { type: String, default: "#000000"}
+    bgColor: { type: String, default: "#000000"},
+    bgImageUrl: { type: String, default: "" },
+    bgImageKey: { type: String, default: "" }
 
 }, { timestamps: true, versionKey: false });
 
