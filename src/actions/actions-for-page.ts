@@ -25,26 +25,25 @@ export const actionSavePageSettings = async (formData: FormData) => {
   const session = await getServerSession(nextAuthOptions);
 
   if (session) {
-    const displayName = formData.get("displayName") as string;
-    const location = formData.get("location") as string;
-    const bio = formData.get("bio") as string;
-    const bgType = formData.get("bgType") as string;
-    const bgColor = formData.get("bgColor") as string;
-    const bgImageUrl = formData.get("bgImageUrl") as string;
-    const bgImageKey = formData.get("bgImageKey") as string;
+    
+    const dataToUpdate: Partial<PageDTO> = {};
 
-    const updateData = { displayName, location, bio, bgType } as PageDTO
+    const dataKeys: (keyof PageDTO)[] = [
+      "displayName",
+      "location",
+      "bio",
+      "bgType",
+      "bgImageUrl",
+      "bgImageKey",
+    ];
 
-    if(bgColor) updateData.bgColor = bgColor
+    for (const key of dataKeys) {
+      if (formData.has(key)) {
+        dataToUpdate[key] = formData.get(key) as string;
+      }
+    }
 
-    if(bgImageUrl) updateData.bgImageUrl = bgImageUrl
-
-    if(bgImageKey) updateData.bgImageKey = bgImageKey
-
-    await Page.updateOne(
-      { owner: session.user?.email },
-      updateData
-    );
+    await Page.updateOne({ owner: session.user?.email }, dataToUpdate);
 
     response.type = MessageType.Success;
     response.message = "Your page details have been updated";

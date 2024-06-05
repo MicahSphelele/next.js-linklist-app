@@ -13,3 +13,5 @@ export type PageDTO = {
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }
+
+export type PageDTOKeys = keyof PageDTO;
