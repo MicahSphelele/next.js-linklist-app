@@ -8,6 +8,7 @@ export const POST = async (req: NextRequest) => {
 
   if (formData.has("file")) {
     const file = formData.get("file") as File;
+    const email = formData.get("email") as string;
 
     const s3Client = new S3Client({
       region: "us-east-1",
@@ -20,13 +21,13 @@ export const POST = async (req: NextRequest) => {
     const randomId = uniqid();
     const ext = file.name.split(".").pop();
 
-    const newFilename = `${randomId}.${ext}`;
+    const newFilename = `${email}.${ext}`;
 
     const stream = file.stream();
     const reader = stream.getReader();
     const chunks: Uint8Array[] = [];
 
-    console.log("Uploading image-001");
+    console.log("Uploading image-1");
     
     while (true) {
         const { done, value } = await reader.read();
@@ -34,7 +35,7 @@ export const POST = async (req: NextRequest) => {
         if (value) chunks.push(value);
       }
 
-      console.log("Uploading image-002 " + chunks.length);
+      console.log("Uploading image-2 ");
 
     const bucketName = process.env.S3_BUCKET_NAME as string
 
@@ -46,7 +47,7 @@ export const POST = async (req: NextRequest) => {
         ContentType: file.type,
     }));
     
-    console.log("Uploading image-003");
+    console.log("Uploading image-3");
 
     const imageLink = `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
 

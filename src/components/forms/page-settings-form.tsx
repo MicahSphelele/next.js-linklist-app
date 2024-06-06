@@ -53,17 +53,10 @@ const PageSettingsForm = ({ page, user }: Props) => {
     data.append("file", file);
     data.append("email", user?.email ?? "");
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     toast.promise(axios.post("/api/upload", data), {
       loading: "Saving image...",
-      success: (response) => {
-        const result = response.data as ImageUploadResponse;
-
+      success: (res) => {
+        const result = res.data as ImageUploadResponse
         if (result.message.type == MessageType.Success) {
           setBgImageUrl(result.imageInfo?.imageLink!);
           setBgImageKey(result.imageInfo?.fileName!);
@@ -114,8 +107,8 @@ const PageSettingsForm = ({ page, user }: Props) => {
             {bgType === "image" && (
               <div className="flex gap-2 justify-center">
                 <label className="bg-white shadow px-4 py-2 mt-2">
-                <input type="hidden" name="bgImageUrl" value={bgImageUrl} />
-                <input type="hidden" name="bgImageKey" value={bgImageKey}  />
+                  <input type="hidden" name="bgImageUrl" value={bgImageUrl} />
+                  <input type="hidden" name="bgImageKey" value={bgImageKey} />
                   <input
                     className="hidden"
                     type="file"

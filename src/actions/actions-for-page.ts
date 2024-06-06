@@ -33,6 +33,7 @@ export const actionSavePageSettings = async (formData: FormData) => {
       "location",
       "bio",
       "bgType",
+      "bgColor",
       "bgImageUrl",
       "bgImageKey",
     ];
