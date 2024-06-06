@@ -30,11 +30,26 @@ type Props = {
 };
 
 const PageSettingsForm = ({ page, user }: Props) => {
+
+  const getAvater = (): string =>  {
+    
+    if(!page.avater) {
+
+      return user?.image ?? ""
+
+    } else {
+
+      return page.avater
+    }
+  }
+
   const router = useRouter();
   const [bgType, setBgType] = useState(page.bgType);
   const [bgColor, setBgColor] = useState(page.bgColor);
   const [bgImageUrl, setBgImageUrl] = useState(page.bgImageUrl);
   const [bgImageKey, setBgImageKey] = useState(page.bgImageKey);
+  const [avater, setAvater] = useState(getAvater());
+  const [avaterKey, setAvaterKey] = useState("");
 
   const handleSubmit = async (formData: FormData) => {
     const result = (await actionSavePageSettings(formData)) as MessageResponse;
@@ -49,27 +64,45 @@ const PageSettingsForm = ({ page, user }: Props) => {
 
   const onChangeBgType = (value: string) => setBgType(value);
 
-  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
+  const upload = async (
+    e: ChangeEvent<HTMLInputElement>,
+    key: string,
+    callback: (response: ImageUploadResponse) => void
+  ) => {
     const target = e.target;
     const file: File = (target.files as FileList)[0];
 
-    const fileName = user?.email ?? ""
+    const fileName = user?.email ?? "";
     const data = new FormData();
     data.append("file", file);
-    data.append("email", `${fileName}-background`);
+    data.append("email", `${fileName}-${key}`);
 
-    toast.promise(axios.post("/api/upload", data), {
-      loading: "Uploading image...",
+    await toast.promise(axios.post("/api/upload", data), {
+      loading: "Uploading...",
       success: (res) => {
         const result = res.data as ImageUploadResponse;
-        if (result.message.type == MessageType.Success) {
-          setBgImageUrl(result.imageInfo?.imageLink!);
-          setBgImageKey(result.imageInfo?.fileName!);
-        }
-
+        callback(result);
         return result.message.message;
       },
       error: "Uploading error",
+    });
+  };
+
+  const onChangeCoverImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    await upload(e, "background", (result) => {
+      if (result.message.type == MessageType.Success) {
+        setBgImageUrl(result.imageInfo?.imageLink!);
+        setBgImageKey(result.imageInfo?.fileName!);
+      }
+    });
+  };
+
+  const onChangeAvaterImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    await upload(e, "avater", (result) => {
+      if (result.message.type == MessageType.Success) {
+        setAvater(result.imageInfo?.imageLink!);
+        setAvaterKey(result.imageInfo?.fileName!);
+      }
     });
   };
 
@@ -118,12 +151,13 @@ const PageSettingsForm = ({ page, user }: Props) => {
                     className="hidden"
                     type="file"
                     accept="image/png, image/gif, image/jpeg"
-                    onChange={onChangeFile}
+                    onChange={onChangeCoverImage}
                   />
                   <div className="flex gap-2 items-center hover:text-blue-500">
-                    <FontAwesomeIcon 
-                    icon={faCloudArrowUp} 
-                    className="text-gray-700 hover:text-blue-500"/>
+                    <FontAwesomeIcon
+                      icon={faCloudArrowUp}
+                      className="text-gray-700 hover:text-blue-500"
+                    />
                     <span>Change Image</span>
                   </div>
                 </label>
@@ -132,14 +166,37 @@ const PageSettingsForm = ({ page, user }: Props) => {
           </div>
         </div>
         <div className="flex justify-center -mb-12">
-          <Image
-            className="rounded-full relative -top-8 border-4 border-white shadow shadow-black/50"
-            alt="User Avatar"
-            width={128}
-            height={128}
-            src={user?.image ?? ""}
-            priority
-          />
+          <div className="relative -top-8 w-[128px] h-[128px]">
+            <div className="overflow-hidden rounded-full h-full border-4 border-white shadow shadow-black/50">
+              <Image
+                className="w-full h-full object-cover"
+                alt="User Avatar"
+                src={avater}
+                width={128}
+                height={128}
+                priority
+              />
+            </div>
+            <label
+              htmlFor="avaterInput"
+              className="absolute bottom-0 -right-2 bg-white p-2 rounded-full shadow shadow-black/50 aspect-square flex items-center cursor-pointer"
+            >
+              <FontAwesomeIcon
+                icon={faCloudArrowUp}
+                size={"xl"}
+                className="text-gray-700 hover:text-blue-500"
+              />
+              <input type="hidden" name="avater" value={avater} />
+              <input type="hidden" name="avaterKey" value={avaterKey} />
+              <input
+                className="hidden"
+                id="avaterInput"
+                type="file"
+                accept="image/png, image/gif, image/jpeg"
+                onChange={onChangeAvaterImage}
+              />
+            </label>
+          </div>
         </div>
         <div className="p-4">
           <label className="input-label" htmlFor="nameIn">

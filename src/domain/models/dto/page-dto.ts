@@ -9,7 +9,9 @@ export type PageDTO = {
     bgType?: string;
     bgColor?: string
     bgImageUrl: string,
-    bgImageKey: string
+    bgImageKey: string,
+    avater: string,
+    avaterKey: string
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }

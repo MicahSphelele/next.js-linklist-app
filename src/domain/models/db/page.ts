@@ -9,7 +9,9 @@ const pageSchema = new Schema({
     bgType: { type: String, default: "color"},
     bgColor: { type: String, default: "#000000"},
     bgImageUrl: { type: String, default: "" },
-    bgImageKey: { type: String, default: "" }
+    bgImageKey: { type: String, default: "" },
+    avater: { type: String, default: "" },
+    avaterKey: { type: String, default: "" }
 
 }, { timestamps: true, versionKey: false });
 

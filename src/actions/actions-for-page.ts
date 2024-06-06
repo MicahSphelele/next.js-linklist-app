@@ -36,6 +36,8 @@ export const actionSavePageSettings = async (formData: FormData) => {
       "bgColor",
       "bgImageUrl",
       "bgImageKey",
+      "avater",
+      "avaterKey"
     ];
 
     for (const key of dataKeys) {
