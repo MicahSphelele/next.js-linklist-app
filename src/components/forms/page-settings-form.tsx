@@ -5,7 +5,11 @@ import { ImageUploadResponse } from "@/domain/models/dto/upload-response";
 import RadioTogglers from "./form-items/radio-togglers";
 import { ChangeEvent, useState } from "react";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { faPalette, faSave } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCloudArrowUp,
+  faPalette,
+  faSave,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import SubmitButton from "../buttons/submit-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,14 +53,15 @@ const PageSettingsForm = ({ page, user }: Props) => {
     const target = e.target;
     const file: File = (target.files as FileList)[0];
 
+    const fileName = user?.email ?? ""
     const data = new FormData();
     data.append("file", file);
-    data.append("email", user?.email ?? "");
+    data.append("email", `${fileName}-background`);
 
     toast.promise(axios.post("/api/upload", data), {
-      loading: "Saving image...",
+      loading: "Uploading image...",
       success: (res) => {
-        const result = res.data as ImageUploadResponse
+        const result = res.data as ImageUploadResponse;
         if (result.message.type == MessageType.Success) {
           setBgImageUrl(result.imageInfo?.imageLink!);
           setBgImageKey(result.imageInfo?.fileName!);
@@ -64,7 +69,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
 
         return result.message.message;
       },
-      error: "Error when trying to upload image",
+      error: "Uploading error",
     });
   };
 
@@ -72,7 +77,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
     <div className="-m-4">
       <form action={handleSubmit}>
         <div
-          className="py-16 flex justify-center items-center bg-cover bg-center"
+          className="py-4 min-h-[300px] flex justify-center items-center bg-cover bg-center"
           style={
             bgType === "color"
               ? { backgroundColor: bgColor }
@@ -106,7 +111,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
             )}
             {bgType === "image" && (
               <div className="flex gap-2 justify-center">
-                <label className="bg-white shadow px-4 py-2 mt-2">
+                <label className="bg-white shadow px-4 py-2 mt-2 hover:text-blue-500 cursor-pointer">
                   <input type="hidden" name="bgImageUrl" value={bgImageUrl} />
                   <input type="hidden" name="bgImageKey" value={bgImageKey} />
                   <input
@@ -115,7 +120,12 @@ const PageSettingsForm = ({ page, user }: Props) => {
                     accept="image/png, image/gif, image/jpeg"
                     onChange={onChangeFile}
                   />
-                  Change Image
+                  <div className="flex gap-2 items-center hover:text-blue-500">
+                    <FontAwesomeIcon 
+                    icon={faCloudArrowUp} 
+                    className="text-gray-700 hover:text-blue-500"/>
+                    <span>Change Image</span>
+                  </div>
                 </label>
               </div>
             )}
