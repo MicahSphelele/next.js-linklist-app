@@ -19,7 +19,7 @@ const AccountPage = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const session = await getServerSession(nextAuthOptions);
-  const desiredUsername = searchParams["desiredUsername"];
+  const desiredUsername = searchParams["desiredUsername"] as string;
 
   if (!session) {
     redirect("/");
@@ -36,13 +36,13 @@ const AccountPage = async ({
         <PageButtonsForm page={page} user={session.user} />
       </>
     );
+  } else {
+    return (
+      <>
+        <UsernameForm desiredUsername={desiredUsername} />
+      </>
+    );
   }
-
-  return (
-    <div>
-      <UsernameForm desiredUsername={desiredUsername} />
-    </div>
-  );
 };
 
 export default AccountPage;
