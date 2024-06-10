@@ -3,7 +3,9 @@
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { MessageType } from "@/domain/enums/enums";
 import { Page } from "@/domain/models/db/page";
+import { User } from "@/domain/models/db/user";
 import { PageDTO } from "@/domain/models/dto/page-dto";
+import { UserDTO } from "@/domain/models/dto/user-dto";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
@@ -26,9 +28,9 @@ export const actionSavePageSettings = async (formData: FormData) => {
 
   if (session) {
     
-    const dataToUpdate: Partial<PageDTO> = {};
+    const pageDataToUpdate: Partial<PageDTO> = {};
 
-    const dataKeys: (keyof PageDTO)[] = [
+    const pageDataKeys: (keyof PageDTO)[] = [
       "displayName",
       "location",
       "bio",
@@ -36,17 +38,26 @@ export const actionSavePageSettings = async (formData: FormData) => {
       "bgColor",
       "bgImageUrl",
       "bgImageKey",
-      "avater",
-      "avaterKey"
     ];
 
-    for (const key of dataKeys) {
+    for (const key of pageDataKeys) {
       if (formData.has(key)) {
-        dataToUpdate[key] = formData.get(key) as string;
+        pageDataToUpdate[key] = formData.get(key) as string;
       }
     }
 
-    await Page.updateOne({ owner: session.user?.email }, dataToUpdate);
+    await Page.updateOne({ owner: session.user?.email }, pageDataToUpdate);
+
+    if(formData.has("avater") && formData.has("avaterKey")) {
+      
+           const avater = formData.get("avater");
+           const avaterKey = formData.get("avaterKey");
+
+           await User.updateOne(
+            {email: session.user?.email},
+            {image: avater, imageKey: avaterKey},
+          );
+    }
 
     response.type = MessageType.Success;
     response.message = "Your page details have been updated";

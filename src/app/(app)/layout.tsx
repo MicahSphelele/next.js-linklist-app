@@ -3,10 +3,15 @@ import {  Lato } from "next/font/google";
 import "../globals.css";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
+import {faBars, faLink} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import AppSiderbar from "@/components/layout/app-sider";
 import { Toaster } from "react-hot-toast";
+import { PageDTO } from "@/domain/models/dto/page-dto";
+import { actionGetPageByOwner } from "@/actions/actions-for-page";
+import Link from "next/link";
 
 const lato = Lato({ subsets: ["latin"], weight: ['400','700'] });
 
@@ -29,31 +34,45 @@ const ApppLayout = async ({
     return redirect("/");
   }
 
+  const page = (await actionGetPageByOwner(
+    session.user?.email as string
+  )) as PageDTO;
+
   return (
     <html lang="en">
       <body className={lato.className}>
-        <main className="flex min-h-screen">
-          <aside className="bg-white w-48 p-4 shadow">
-            <div className="rounded-full overflow-hidden w-24 mx-auto">
-              <Image
-                alt="User Avatar"
-                width={128}
-                height={128}
-                src={session?.user?.image as string}
-                priority
-              />
-            </div>
-            <div className="text-center">
-              <AppSiderbar />
-            </div>
-          </aside>
-          <div className="grow">
-            <div className="bg-white m-8 p-4 shadow">
-              <Toaster />
-              {children}
-              </div>
+      <Toaster />
+      <main className="md:flex min-h-screen">
+      <label htmlFor="navCb" className="md:hidden ml-8 mt-4 p-4 rounded-md bg-white shadow inline-flex items-center gap-2 cursor-pointer">
+        <FontAwesomeIcon icon={faBars} />
+        <span>Open navigation</span>
+      </label>
+      <input id="navCb" type="checkbox" className="hidden" />
+      <label htmlFor="navCb" className="hidden backdrop fixed inset-0 bg-black/80 z-10"></label>
+      <aside className="bg-white w-48 p-4 pt-6 shadow fixed md:static -left-48 top-0 bottom-0 z-20 transition-all">
+        <div className="sticky top-0 pt-2">
+          <div className="rounded-full overflow-hidden aspect-square w-24 mx-auto">
+            <Image src={ session.user?.image ?? ""} width={256} height={256} alt={'avatar'} />
           </div>
-        </main>
+          {page && (
+            <Link
+              target="_blank"
+              href={'/'+page.uri}
+              className="text-center mt-4 flex gap-1 items-center justify-center">
+              <FontAwesomeIcon size="lg" icon={faLink} className="text-blue-500" />
+              <span className="text-xl text-gray-300">/</span>
+              <span>{ page.uri }</span>
+            </Link>
+          )}
+          <div className="text-center">
+            <AppSiderbar />
+          </div>
+        </div>
+      </aside>
+      <div className="grow">
+        {children}
+      </div>
+    </main>
       </body>
     </html>
   );

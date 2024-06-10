@@ -19,6 +19,7 @@ import { MessageType } from "@/domain/enums/enums";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import SectionBox from "../layout/section-box";
 
 type Props = {
   page: PageDTO;
@@ -32,15 +33,7 @@ type Props = {
 const PageSettingsForm = ({ page, user }: Props) => {
 
   const getAvater = (): string =>  {
-    
-    if(!page.avater) {
-
-      return user?.image ?? ""
-
-    } else {
-
-      return page.avater
-    }
+    return user?.image ?? ""
   }
 
   const router = useRouter();
@@ -107,7 +100,8 @@ const PageSettingsForm = ({ page, user }: Props) => {
   };
 
   return (
-    <div className="-m-4">
+    <div>
+      <SectionBox>
       <form action={handleSubmit}>
         <div
           className="py-4 min-h-[300px] flex justify-center items-center bg-cover bg-center"
@@ -239,6 +233,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
           </div>
         </div>
       </form>
+      </SectionBox>
     </div>
   );
 };

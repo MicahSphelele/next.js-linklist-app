@@ -23,7 +23,7 @@ const AppSiderbar = () => {
     }
 
   return (
-    <nav className="inline-flex mx-auto flex-col text-center mt-12 gap-2 justify-center  text-gray-500">
+    <nav className="inline-flex mx-auto flex-col text-center mt-8 gap-2 justify-center  text-gray-500">
       <Link className={getLinkClasses('/account')} href={"/account"}>
         <FontAwesomeIcon
           fixedWidth={true}
