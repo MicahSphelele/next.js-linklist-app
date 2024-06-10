@@ -6,6 +6,7 @@ import UsernameForm from "@/components/forms/username-form";
 import { actionGetPageByOwner } from "@/actions/actions-for-page";
 import { PageDTO } from "@/domain/models/dto/page-dto";
 import PageSettingsForm from "@/components/forms/page-settings-form";
+import PageButtonsForm from "@/components/forms/page-buttons-form";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -28,11 +29,18 @@ const AccountPage = async ({
     session.user?.email as string
   )) as PageDTO;
 
+  if (page) {
+    return (
+      <>
+        <PageSettingsForm page={page} user={session.user} />
+        <PageButtonsForm page={page} user={session.user} />
+      </>
+    );
+  }
+
   return (
     <div>
-      {!page && <UsernameForm desiredUsername={desiredUsername as string} />}
-
-      {page && <PageSettingsForm page={page} user={session.user} />}
+      <UsernameForm desiredUsername={desiredUsername} />
     </div>
   );
 };
