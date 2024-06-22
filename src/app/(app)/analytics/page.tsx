@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SectionBox from "../../../components/layout/section-box";
 
 export const metadata: Metadata = {
     title: "Analytics",
@@ -7,7 +8,10 @@ export const metadata: Metadata = {
 
 const AnalyticsPage = () => {
     return(<div>
+        <SectionBox>
         <h1>Analytics Page</h1>
+        </SectionBox>
+        
     </div>)
 }
 
