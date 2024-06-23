@@ -47,14 +47,44 @@ export const allButtons: ButtonDTO[] = [
     key: "instagram",
     label: "instagram",
     icon: faInstagram,
-    placeholder: "https://facebook.com/profile/...",
+    placeholder: "https://www.instagram.com/profile/...",
   },
-  { key: "facebook", label: "facebook", icon: faFacebook },
-  { key: "discord", label: "discord", icon: faDiscord },
-  { key: "tiktok", label: "tiktok", icon: faTiktok },
-  { key: "youtube", label: "youtube", icon: faYoutube },
-  { key: "whatsapp", label: "whatsapp", icon: faWhatsapp },
-  { key: "github", label: "github", icon: faGithub },
+  {
+    key: "facebook",
+    label: "facebook",
+    icon: faFacebook,
+    placeholder: "https://facebook.com/profile/... ",
+  },
+  {
+    key: "discord",
+    label: "discord",
+    icon: faDiscord,
+    placeholder: "https://discord.com/profile/...",
+  },
+  {
+    key: "tiktok",
+    label: "tiktok",
+    icon: faTiktok,
+    placeholder: "https://www.tiktok.com/@username?...",
+  },
+  {
+    key: "youtube",
+    label: "youtube",
+    icon: faYoutube,
+    placeholder: "https://www.youtube.com/@channel",
+  },
+  {
+    key: "whatsapp",
+    label: "whatsapp",
+    icon: faWhatsapp,
+    placeholder: "+27 123 123 123",
+  },
+  {
+    key: "github",
+    label: "github",
+    icon: faGithub,
+    placeholder: "https://github.com/username",
+  },
   { key: "telegram", label: "telegram", icon: faTelegram },
 ];
 
@@ -67,45 +97,51 @@ type Props = {
   };
 };
 
-
 const PageButtonsForm = ({ page, user }: Props) => {
-  
   const [activeButtons, setActiveButtons] = useState<ButtonDTO[]>([]);
 
-  const availableButtons = allButtons.filter((b1) => !activeButtons.find((b2) => b1.key === b2.key));
+  const availableButtons = allButtons.filter(
+    (b1) => !activeButtons.find((b2) => b1.key === b2.key)
+  );
 
   const addButtonToProfileClick = (button: ButtonDTO) => {
     setActiveButtons((prevButton) => {
-        return [...prevButton, button];
+      return [...prevButton, button];
     });
- }
+  };
 
   return (
     <>
       <SectionBox>
-        
-      <h2 className="text-2xl font-bold mb-4">Buttons</h2>
-        {
-          activeButtons.map((button) => {
-            return (<>
+        <h2 className="text-2xl font-bold mb-4">Buttons</h2>
+        {activeButtons.map((button) => {
+          return (
+            <>
               <div className="mb-4 flex items-center">
-
                 <div className="w-36 flex h-full text-gray-700 p-2 gap-2 items-center">
-                <FontAwesomeIcon icon={button.icon} />
-                <span>{toFirstLetterUpperCase(button.label)}:</span>
+                  <FontAwesomeIcon icon={button.icon} />
+                  <span>{toFirstLetterUpperCase(button.label)}:</span>
                 </div>
 
-                <input type="text" style={{marginBottom: '0'}} name={button.key} placeholder={button.placeholder}/>
+                <input
+                  type="text"
+                  style={{ marginBottom: "0" }}
+                  name={button.key}
+                  placeholder={button.placeholder}
+                />
               </div>
-            </>)
-          })
-        }
+            </>
+          );
+        })}
         <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
-       
           {availableButtons.map((button) => {
             return (
               <>
-                <button onClick={() => addButtonToProfileClick(button)} key={button.key} className="flex gap-1 p-2 items-center bg-gray-200 hover:bg-slate-300 hover:text-white">
+                <button
+                  onClick={() => addButtonToProfileClick(button)}
+                  key={button.key}
+                  className="flex gap-1 p-2 items-center bg-gray-200 hover:bg-slate-300 hover:text-white"
+                >
                   <FontAwesomeIcon icon={button.icon} />
                   <span>{toFirstLetterUpperCase(button.label)}</span>
                   <FontAwesomeIcon icon={faPlus} />
@@ -114,12 +150,12 @@ const PageButtonsForm = ({ page, user }: Props) => {
             );
           })}
         </div>
-        <div className="max-w-xs mx-auto mt-8">
-        <SubmitButton>
-          <FontAwesomeIcon icon={faSave}/>
-          <span>Save</span>
-        </SubmitButton>
-        </div>    
+        <div className="max-w-[200px] mx-auto mt-8">
+          <SubmitButton>
+            <FontAwesomeIcon icon={faSave} />
+            <span>Save</span>
+          </SubmitButton>
+        </div>
       </SectionBox>
     </>
   );
