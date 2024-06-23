@@ -19,7 +19,7 @@ import { MessageType } from "@/domain/enums/enums";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import SectionBox from "../layout/section-box";
+import SectionBox from "@/components/layout/section-box";
 
 type Props = {
   page: PageDTO;
@@ -104,7 +104,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
       <SectionBox>
       <form action={handleSubmit}>
         <div
-          className="py-4 min-h-[300px] flex justify-center items-center bg-cover bg-center"
+          className="py-4 -m-4 min-h-[300px] flex justify-center items-center bg-cover bg-center"
           style={
             bgType === "color"
               ? { backgroundColor: bgColor }
@@ -192,7 +192,7 @@ const PageSettingsForm = ({ page, user }: Props) => {
             </label>
           </div>
         </div>
-        <div className="p-4">
+        <div className="p-0">
           <label className="input-label" htmlFor="nameIn">
             Display name
           </label>
