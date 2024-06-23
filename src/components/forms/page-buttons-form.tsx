@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import { ButtonDTO } from "@/domain/models/dto/button-dto";
 import { toFirstLetterUpperCase } from "@/libs/utils";
 import SubmitButton from "../buttons/submit-button";
+import { actionSavePageButtons } from "@/actions/actions-for-page";
 
 export const allButtons: ButtonDTO[] = [
   {
@@ -98,6 +99,7 @@ type Props = {
 };
 
 const PageButtonsForm = ({ page, user }: Props) => {
+
   const [activeButtons, setActiveButtons] = useState<ButtonDTO[]>([]);
 
   const availableButtons = allButtons.filter(
@@ -110,52 +112,63 @@ const PageButtonsForm = ({ page, user }: Props) => {
     });
   };
 
+  const saveButtons = async (formData: FormData) => {
+
+    await actionSavePageButtons(formData);
+
+    toast.success("Button settings saved!");
+  }
+
+
   return (
     <>
       <SectionBox>
-        <h2 className="text-2xl font-bold mb-4">Buttons</h2>
-        {activeButtons.map((button) => {
-          return (
-            <>
-              <div className="mb-4 flex items-center">
-                <div className="w-36 flex h-full text-gray-700 p-2 gap-2 items-center">
-                  <FontAwesomeIcon icon={button.icon} />
-                  <span>{toFirstLetterUpperCase(button.label)}:</span>
-                </div>
-
-                <input
-                  type="text"
-                  style={{ marginBottom: "0" }}
-                  name={button.key}
-                  placeholder={button.placeholder}
-                />
-              </div>
-            </>
-          );
-        })}
-        <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
-          {availableButtons.map((button) => {
+        <form action={saveButtons}>
+          <h2 className="text-2xl font-bold mb-4">Buttons</h2>
+          {activeButtons.map((button) => {
             return (
               <>
-                <button
-                  onClick={() => addButtonToProfileClick(button)}
-                  key={button.key}
-                  className="flex gap-1 p-2 items-center bg-gray-200 hover:bg-slate-300 hover:text-white"
-                >
-                  <FontAwesomeIcon icon={button.icon} />
-                  <span>{toFirstLetterUpperCase(button.label)}</span>
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
+                <div className="mb-4 flex items-center">
+                  <div className="w-36 flex h-full text-gray-700 p-2 gap-2 items-center">
+                    <FontAwesomeIcon icon={button.icon} />
+                    <span>{toFirstLetterUpperCase(button.label)}:</span>
+                  </div>
+
+                  <input
+                    key={button.key}
+                    type="text"
+                    style={{ marginBottom: "0" }}
+                    name={button.key}
+                    placeholder={button.placeholder}
+                  />
+                </div>
               </>
             );
           })}
-        </div>
-        <div className="max-w-[200px] mx-auto mt-8">
-          <SubmitButton>
-            <FontAwesomeIcon icon={faSave} />
-            <span>Save</span>
-          </SubmitButton>
-        </div>
+          <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
+            {availableButtons.map((button) => {
+              return (
+                <>
+                  <button
+                    onClick={() => addButtonToProfileClick(button)}
+                    key={button.key}
+                    className="flex gap-1 p-2 items-center bg-gray-200 hover:bg-slate-300 hover:text-blue-500"
+                  >
+                    <FontAwesomeIcon icon={button.icon} />
+                    <span>{toFirstLetterUpperCase(button.label)}</span>
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                </>
+              );
+            })}
+          </div>
+          <div className="max-w-[200px] mx-auto mt-8">
+            <SubmitButton>
+              <FontAwesomeIcon icon={faSave} />
+              <span>Save</span>
+            </SubmitButton>
+          </div>
+        </form>
       </SectionBox>
     </>
   );

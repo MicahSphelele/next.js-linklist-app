@@ -11,7 +11,8 @@ export type PageDTO = {
     bgImageUrl: string,
     bgImageKey: string,
     avater: string,
-    avaterKey: string
+    avaterKey: string,
+    buttons?: Object,
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }

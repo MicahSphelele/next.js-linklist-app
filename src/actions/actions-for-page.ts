@@ -82,6 +82,22 @@ export const actionSavePageButtons = async (formData: FormData) => {
   const session = await getServerSession(nextAuthOptions);
 
   if (session) {
+  
+
+    const buttonsValues: { [key: string]: FormDataEntryValue } = {};
+
+    formData.forEach((value, key) => {
+      buttonsValues[key] = value
+    });
+
+    const pageDataToUpdate: Partial<PageDTO> = { buttons: buttonsValues};
+
+    await Page.updateOne({ owner: session.user?.email }, pageDataToUpdate);
+
+    response.type = MessageType.Success;
+    response.message = "Your page buttons have been updated";
+
+    return JSON.parse(JSON.stringify(response));
 
   } else {
     response.type = MessageType.Error;
