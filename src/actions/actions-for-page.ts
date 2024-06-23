@@ -70,3 +70,23 @@ export const actionSavePageSettings = async (formData: FormData) => {
     return JSON.parse(JSON.stringify(response));
   }
 };
+
+export const actionSavePageButtons = async (formData: FormData) => {
+
+  const response = {
+    type: MessageType.Unknown,
+    message: "",
+  };
+  
+  await mongoose.connect(process.env.MONGODB_URI as string);
+  const session = await getServerSession(nextAuthOptions);
+
+  if (session) {
+
+  } else {
+    response.type = MessageType.Error;
+    response.message = "Session not found please try and authenticate";
+
+    return JSON.parse(JSON.stringify(response));
+  }
+};
