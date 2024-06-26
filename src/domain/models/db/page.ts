@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const pageSchema = new Schema(
   {
@@ -13,7 +13,7 @@ const pageSchema = new Schema(
     bgImageKey: { type: String, default: "" },
     avater: { type: String, default: "" },
     avaterKey: { type: String, default: "" },
-    buttons: { type: Object, default: {} },
+    buttons: { type: [Object], default: {} },
   },
   { timestamps: true, versionKey: false }
 );

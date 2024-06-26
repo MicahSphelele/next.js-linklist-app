@@ -12,7 +12,7 @@ export type PageDTO = {
     bgImageKey: string,
     avater: string,
     avaterKey: string,
-    buttons?: Object,
+    buttons: Array<{ [key: string]: string }>,
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }
