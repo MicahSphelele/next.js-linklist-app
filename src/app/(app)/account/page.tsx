@@ -7,6 +7,7 @@ import { actionGetPageByOwner } from "@/actions/actions-for-page";
 import { PageDTO } from "@/domain/models/dto/page-dto";
 import PageSettingsForm from "@/components/forms/page-settings-form";
 import PageButtonsForm from "@/components/forms/page-buttons-form";
+import PageLinksForm from "@/components/forms/page-links-form";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -34,6 +35,7 @@ const AccountPage = async ({
       <>
         <PageSettingsForm page={page} user={session.user} />
         <PageButtonsForm page={page} user={session.user} />
+        <PageLinksForm page={page} user={session.user} />
       </>
     );
   } else {

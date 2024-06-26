@@ -13,6 +13,7 @@ export type PageDTO = {
     avater: string,
     avaterKey: string,
     buttons: Array<{ [key: string]: string }>,
+    links: Array<{ [key: string]: string }>,
     createdAt?: ISODateString;
     updatedAt?: ISODateString;
 }
