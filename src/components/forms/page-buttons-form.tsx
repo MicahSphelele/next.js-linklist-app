@@ -173,6 +173,7 @@ const PageButtonsForm = ({ page, user }: Props) => {
                     name={button.key}
                     defaultValue={page.buttons[0][button.key]}
                     placeholder={button.placeholder}
+                    className="outline-none"
                   />
                   <button onClick={() => removeButtonFromProfileClick(button) } type="button" className="p-2 bg-gray-300 py-2 px-4 cursor-pointer text-red-500">
                     <FontAwesomeIcon icon={faTrash} />

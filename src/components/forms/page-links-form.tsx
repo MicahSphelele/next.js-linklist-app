@@ -3,7 +3,7 @@
 import { PageDTO } from "@/domain/models/dto/page-dto";
 import SectionBox from "@/components/layout/section-box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faCloudArrowUp, faGripLines, faLink, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
 import SubmitButton from "../buttons/submit-button";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ const PageLinksForm = ({ page, user }: Props) => {
   const addNewLinkClick = () => {
 
     setLinks(preLink => {
-      return [...preLink, { title: "", subtitle: "", icon: "", url: "" }];
+      return [...preLink, { key: Date.now().toString() , title: "", subtitle: "", icon: "", url: "" }];
     })
   };
 
@@ -48,11 +48,29 @@ const PageLinksForm = ({ page, user }: Props) => {
           />
           <span>Add new</span>
         </button>
-        <div>
+        <div className="">
         {
           links.map((link) => (
-            <div key={link.title}>
-
+            <div className="mt-8 flex gap-2 items-center" key={link.key}>
+              <div>
+              <FontAwesomeIcon icon={faGripLines} className="text-gray-700 cursor-pointer mr-2"/>
+              </div>
+              <div className="text-center">
+                <div className="bg-gray-300 p-4 rounded-full inline-block">
+                <FontAwesomeIcon icon={faLink}/>
+                </div>
+                <div className="div">
+                <button className="border mt-2 p-2 flex items-center gap-1 rounded-md text-gray-600" type="button">
+                <FontAwesomeIcon icon={faCloudArrowUp}/>
+                  <span>Change icon</span>
+                  </button>
+                </div>
+              </div>
+              <div className="grow">
+              <input type="text" placeholder="Title" className="outline-none"/>
+                <input type="text" placeholder="Subtitle (optional)" className="outline-none"/>
+                <input type="text" placeholder="Url" className="outline-none"/>
+              </div>
             </div>
           ))
         }
