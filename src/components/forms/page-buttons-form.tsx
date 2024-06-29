@@ -8,7 +8,8 @@ import {
   faFacebook,
   faGithub,
   faInstagram,
-  faInstagramSquare,
+  faLinkedin,
+  faTwitter,
   faTelegram,
   faTiktok,
   faWhatsapp,
@@ -100,7 +101,22 @@ const allButtons: ButtonDTO[] = [
     key: "telegram",
     label: "telegram",
     icon: faTelegram, 
-    placeholder: "https://t.me/+RXdMWg9G24tmNzB7" },
+    placeholder: "https://t.me/+RXdMWg9G24tmNzB7" 
+  },
+  { 
+    id: 11,
+    key: "x-twitter",
+    label: "x-twitter",
+    icon: faTwitter, 
+    placeholder: "https://x.com/username?t=RXdMWg9G24tmNzB7" 
+  },
+  { 
+    id: 11,
+    key: "linkedin",
+    label: "linkedin",
+    icon: faLinkedin,
+    placeholder: "https://www.linkedin.com/in/name-surname-3b2a84123/" 
+  },
 ];
 
 type Props = {
