@@ -26,25 +26,12 @@ type Props = {
 
 const PageLinksForm = ({ page, user }: Props) => {
 
-const input = {1:"John",2:"Josh"};
 
-const output = Object.keys(input).map((key) => {
-  return {
-    Number: key,
-    Name: "Sphlele"
-  }
-})
+  const pageLinksKeys = Object.keys(page.links[0]);
 
-  //const output = Object.keys(page.links[0]);
-
-  const pageLinks = page.links[0] = {
-    
-  }
-  //
+  console.log(pageLinksKeys);
 
   const [links, setLinks] = useState(page.links || []);
-
-  console.log(output)
 
   const save = (formData: FormData) => {};
 
@@ -78,7 +65,7 @@ const output = Object.keys(input).map((key) => {
           />
           <span>Add new</span>
         </button>
-        <div className="">
+        <div>
         
             {links.map((link) => (
               <div className="mt-8 flex gap-2 items-center" key={link.id}>
@@ -89,7 +76,7 @@ const output = Object.keys(input).map((key) => {
                   />
                 </div>
                 <div className="text-center">
-                  <div className="bg-gray-300 p-4 rounded-full inline-block">
+                  <div className="bg-gray-300 p-4 rounded-full inline-block cursor-pointer">
                     <FontAwesomeIcon icon={faLink} />
                   </div>
                   <div className="div">
