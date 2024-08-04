@@ -1,7 +1,5 @@
-
-///{ title: "", subtitle: "", icon: "", link: "" }
-
 export type LinkDTO = {
+    id: number,
     key: string,
     title: string
     subtitle: string;

@@ -1,4 +1,5 @@
 import { ISODateString } from "next-auth"
+import { LinkDTO } from "./link-dto";
 
 export type PageDTO = {
     _id?: string;
