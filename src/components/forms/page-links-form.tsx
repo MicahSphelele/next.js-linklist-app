@@ -53,7 +53,7 @@ const output = Object.keys(input).map((key) => {
       return [
         ...preLink,
         {
-          key: Date.now().toString(),
+          id: Date.now().toString(),
           title: "",
           subtitle: "",
           icon: "",
@@ -81,7 +81,7 @@ const output = Object.keys(input).map((key) => {
         <div className="">
         
             {links.map((link) => (
-              <div className="mt-8 flex gap-2 items-center" key={link.key}>
+              <div className="mt-8 flex gap-2 items-center" key={link.id}>
                 <div>
                   <FontAwesomeIcon
                     icon={faGripLines}

@@ -1,6 +1,5 @@
 export type LinkDTO = {
-    id: number,
-    key: string,
+    id: string,
     title: string
     subtitle: string;
     icon: string;
